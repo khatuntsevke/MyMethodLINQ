@@ -12,7 +12,6 @@ list.Top(30) должно вернуть 30% элементов от выбор�
 2) Ограничьте количество элементов выходной коллекции;
 3) Создайте дженерик перегрузку метода Top, добавив для этого одним из параметров функцию, принимающую T и возвращающую int;
  */
-
 namespace ConsoleApp
 {
     internal static class MyIEnumerableExtension
@@ -22,19 +21,19 @@ namespace ConsoleApp
             if (percentages > 100 || percentages < 1)
                 throw new ArgumentException($"percentages={percentages} не может быть меньше 1 или больше 100");
 
-            var reducedCollectionSize = Round(collection.Count() * percentages / 100.0);
+            uint reducedCollectionSize = (uint)Math.Round(collection.Count() * percentages / 100.0);
 
-            return collection;
+            return collection.OrderByDescending(item => item).Where( (_, i) => i < reducedCollectionSize );
         }
 
-        internal static IEnumerable<T> Top<T>(this IEnumerable<T> collection, uint percentages, Func<T, int> filter)
+        internal static IEnumerable<T> Top<T>(this IEnumerable<T> collection, uint percentages, Func<T, int> keySelector)
         {
             if (percentages > 100 || percentages < 1)
                 throw new ArgumentException($"percentages={percentages} не может быть меньше 1 или больше 100");
 
-            var reducedCollectionSize = collection.Count();
+            uint reducedCollectionSize = (uint)Math.Round(collection.Count() * percentages / 100.0);
 
-            return collection;
+            return collection.OrderByDescending(item => keySelector(item)).Where((_, i) => i < reducedCollectionSize);
         }
     }
 }
