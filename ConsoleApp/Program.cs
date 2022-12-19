@@ -13,3 +13,29 @@ list.Top(30) должно вернуть 30% элементов от выбор�
 3) Создайте дженерик перегрузку метода Top, добавив для этого одним из параметров функцию, принимающую T и возвращающую int;
  */
 
+using ConsoleApp;
+
+var collection = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+Console.WriteLine("==== Коллекция =====");
+foreach (var item in collection)
+    Console.WriteLine(item);
+
+var collectionWithTop = collection.Top(30);
+
+Console.WriteLine("==== Коллекция после метода Top(30) =====");
+foreach (var item in collectionWithTop)
+    Console.WriteLine(item);
+
+var persons = new List<Person>();
+for (int age = 1; age < 10; age++)
+    persons.Add(new Person(age));
+
+Console.WriteLine("==== Коллекция Persons =====");
+foreach (var item in persons)
+    Console.WriteLine(item);
+
+var personsWithTop = persons.Top(30, person => person.Age);
+
+Console.WriteLine("==== Коллекция Persons после метода Top(30, p=>p.Age) =====");
+foreach (var item in personsWithTop)
+    Console.WriteLine(item);
